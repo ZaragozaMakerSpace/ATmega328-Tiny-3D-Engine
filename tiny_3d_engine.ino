@@ -145,15 +145,18 @@ long COS(unsigned int angle) {
 // Matrix operation
 // ----------------------------------------------
 Matrix4 mMultiply(const Matrix4 &mat1, const Matrix4 &mat2) {
-  Matrix4 mat;
-  unsigned char r,c;
-  for (c=0; c<4; c++)
-    for (r=0; r<4; r++)
-      mat.m[c][r] = pMultiply(mat1.m[0][r], mat2.m[c][0]) +
-                    pMultiply(mat1.m[1][r], mat2.m[c][1]) +
-                    pMultiply(mat1.m[2][r], mat2.m[c][2]) +
-                    pMultiply(mat1.m[3][r], mat2.m[c][3]);
-  return mat;
+    Matrix4 mat;
+    unsigned char r, c;
+    for (c = 0; c < 4; c++) {
+        for (r = 0; r < 4; r++) {
+            long part1 = pMultiply(mat1.m[0][r], mat2.m[c][0]) +
+                         pMultiply(mat1.m[1][r], mat2.m[c][1]);
+            long part2 = pMultiply(mat1.m[2][r], mat2.m[c][2]) +
+                         pMultiply(mat1.m[3][r], mat2.m[c][3]);
+            mat.m[c][r] = part1 + part2;
+        }
+    }
+    return mat;
 }
 
 Matrix4 mRotateX(const unsigned int angle) {
